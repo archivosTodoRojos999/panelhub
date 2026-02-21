@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,111 +6,148 @@
     <title>SmartBottle Pro</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
-            background: #f9f9f9;
+            background: #f5f5f5;
             color: #333;
         }
         header {
-            background: #ff6f61;
-            color: white;
-            padding: 20px 0;
+            background: #ffe600;
+            padding: 20px;
             text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #111;
         }
         .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 30px auto;
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .left, .right {
             background: white;
+            border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1, h2 {
-            color: #ff6f61;
+        .left {
+            flex: 2;
+        }
+        .right {
+            flex: 1;
+            min-width: 280px;
         }
         .product-img {
             width: 100%;
-            max-width: 400px;
-            display: block;
-            margin: 20px auto;
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #111;
+        }
+        .price {
+            font-size: 32px;
+            color: #00a650;
+            font-weight: bold;
         }
         .btn {
-            display: inline-block;
-            background: #ff6f61;
+            width: 100%;
+            padding: 15px;
+            background: #3483fa;
             color: white;
-            padding: 15px 25px;
-            text-decoration: none;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
             margin-top: 20px;
         }
         .btn:hover {
-            background: #e65550;
+            background: #2968c8;
         }
         .section {
-            margin-bottom: 40px;
+            margin-top: 30px;
         }
-        .testimonial {
-            background: #f9f9f9;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #ff6f61;
+        .faq, .reviews {
+            margin-top: 40px;
         }
-        .faq {
-            margin-top: 20px;
+        .review {
+            border-top: 1px solid #ddd;
+            padding: 15px 0;
         }
-        .faq h3 {
-            color: #ff6f61;
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            color: #777;
+            margin-top: 40px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <header>
+
+<header>
+    🛒 SmartBottle Pro - Tu Aliada en Hidrataci\u00f3n
+</header>
+
+<div class="container">
+    <!-- Sección Izquierda -->
+    <div class="left">
         <h1>SmartBottle Pro</h1>
-        <p>La botella inteligente que revoluciona tu hidratación</p>
-    </header>
-    <div class="container">
+        <img src="https://via.placeholder.com/600x400" class="product-img">
+        
         <div class="section">
-            <h2>Sobre SmartBottle Pro</h2>
-            <img src="https://via.placeholder.com/400" alt="SmartBottle Pro" class="product-img">
-            <p>SmartBottle Pro es la botella inteligente que te ayuda a mantenerte hidratado, monitoreando tu ingesta de agua y recordándote cuándo beber. Con sensores avanzados y conectividad a tu smartphone, es la aliada perfecta para tu salud.</p>
+            <h2>Descripción</h2>
+            <p>SmartBottle Pro es la botella inteligente que transforma tu rutina. Con recordatorios inteligentes y una app sincronizada, te aseguras de estar siempre hidratado.</p>
         </div>
+        
         <div class="section">
-            <h2>Beneficios Clave</h2>
+            <h2>Características</h2>
             <ul>
-                <li>Monitoreo de ingesta diaria de agua</li>
-                <li>Notificaciones personalizadas en tu móvil</li>
-                <li>Material resistente y elegante</li>
-                <li>Batería de larga duración (hasta 10 días)</li>
+                <li>Sensor de agua inteligente</li>
+                <li>Conexión Bluetooth con tu smartphone</li>
+                <li>Recordatorios automáticos</li>
+                <li>Batería de larga duración (10 días)</li>
+                <li>Diseño elegante y compacto</li>
             </ul>
         </div>
-        <div class="section">
-            <h2>Precio y Detalles</h2>
-            <p><strong>Precio: $89 USD</strong></p>
-            <p>Incluye: Botella, cargador USB, guía digital y acceso a la app.</p>
-            <a href="#" class="btn" onclick="alert('Lo sentimos, esta página y producto son ficticios. No hay compra disponible.')">COMPRAR AHORA</a>
-        </div>
-        <div class="section">
-            <h2>Testimonios</h2>
-            <div class="testimonial">
-                <p><em>\"Desde que uso SmartBottle Pro, me siento más energizado y nunca olvido beber agua.\"</em> - Laura G.</p>
+        
+        <div class="section reviews">
+            <h2>Opiniones</h2>
+            <div class="review">
+                ⭐⭐⭐⭐⭐ “Muy práctica, no olvido tomar agua” - Ana
             </div>
-            <div class="testimonial">
-                <p><em>\"Una innovación que cambió mi rutina. ¡No salgo de casa sin ella!\"</em> - Carlos M.</p>
+            <div class="review">
+                ⭐⭐⭐⭐ “Buena calidad, me gusta su diseño” - Pedro
+            </div>
+            <div class="review">
+                ⭐⭐⭐⭐⭐ “Recomendada al 100%” - Lucia
             </div>
         </div>
+
         <div class="section faq">
             <h2>Preguntas Frecuentes</h2>
-            <div>
-                <h3>¿La botella está disponible ya?</h3>
-                <p>S\u00ed, en este momento está disponible solo como ejemplo ficticio.</p>
-            </div>
-            <div>
-                <h3>¿Puedo pagar con Mercado Pago?</h3>
-                <p>No, esta es una página ficticia y no se realiza ninguna transacción real.</p>
-            </div>
+            <p><strong>¿Tiene garantía?</strong><br>
+            Sí, garantía de 30 días (ficticio).</p>
+            <p><strong>¿Puedo comprar en cuotas?</strong><br>
+            Sí, pero es solo un ejemplo ficticio.</p>
+            <p><strong>¿Es un producto real?</strong><br>
+            No, esta página es solo una simulación de tienda.</p>
         </div>
     </div>
-    <footer style
+
+    <!-- Sección Derecha -->
+    <div class="right">
+        <p class="price">$89 USD</p>
+        <p>Envío gratis a todo el país</p>
+        <button class="btn" onclick="mensaje()">Comprar ahora</button>
+        <button class="btn" onclick="mensaje()">Agregar al carrito</button>
+        <div class="section">
+            <p><strong>Vendido por:</strong> Tienda Ficticia</p>
+            <p><strong>Garantía:</strong> 30 días</p>
+        </div>
+    </div>
+</div>
+
+<
