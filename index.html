@@ -1,135 +1,242 @@
-<script>
-    let juegoActivo = false;
-    let enAuto = false;
-    let enCasa = false;
-
-    let camaraPos = { x: 50, y: 50 };
-    let autoSeleccionado = 0;
-
-    const autos = document.querySelectorAll('.auto');
-    const autoPos = [30, 50, 70];
-
-    const camaraPeaton = document.getElementById('camara-peaton');
-    const camaraAuto = document.getElementById('camara-auto');
-    const camaraInterior = document.getElementById('camara-interior');
-
-    const inicio = document.getElementById('pantalla-inicio');
-    const juego = document.getElementById('pantalla-juego');
-
-    let ubicacion = "San Fierro - Zona Sur";
-
-    function actualizarCamara() {
-        camaraPeaton.style.backgroundPosition = `${camaraPos.x}% ${camaraPos.y}%`;
-    }
-
-    function moverCamara(dx, dy) {
-        camaraPos.x += dx;
-        camaraPos.y += dy;
-
-        camaraPos.x = Math.max(0, Math.min(100, camaraPos.x));
-        camaraPos.y = Math.max(0, Math.min(100, camaraPos.y));
-
-        actualizarCamara();
-    }
-
-    function moverPersonaje(dx, dy) {
-        if (!juegoActivo || enAuto) return;
-        moverCamara(dx, dy);
-    }
-
-    function toggleAuto() {
-        enAuto = !enAuto;
-        enCasa = false;
-
-        camaraPeaton.style.display = enAuto ? "none" : "block";
-        camaraAuto.style.display = enAuto ? "block" : "none";
-        camaraInterior.style.display = "none";
-
-        document.getElementById('sonido-puerta-sa').play();
-        document.getElementById('sonido-motor-sa')[enAuto ? "play" : "pause"]();
-
-        actualizarCamara();
-    }
-
-    function moverAuto() {
-        if (!enAuto) return;
-
-        autoPos[autoSeleccionado] += 2;
-        autos[autoSeleccionado].style.left = autoPos[autoSeleccionado] + "%";
-    }
-
-    function toggleCasa() {
-        enCasa = !enCasa;
-        enAuto = false;
-
-        if (enCasa) {
-            ubicacion = "Interior de casa";
-            camaraPeaton.style.display = "none";
-            camaraAuto.style.display = "none";
-            camaraInterior.style.display = "block";
-        } else {
-            ubicacion = "San Fierro - Zona Sur";
-            camaraPeaton.style.display = "block";
-            camaraInterior.style.display = "none";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensibilidades Personalizadas 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        document.getElementById('ubicacion').textContent = ubicacion;
-        document.getElementById('sonido-puerta-sa').play();
-    }
-
-    document.getElementById('btn-iniciar').onclick = () => {
-        inicio.style.display = "none";
-        juego.style.display = "block";
-        juegoActivo = true;
-
-        document.getElementById('sonido-calle').play();
-        actualizarCamara();
-    };
-
-    document.getElementById('btn-cam-izq').onclick = () => moverCamara(-3, 0);
-    document.getElementById('btn-cam-der').onclick = () => moverCamara(3, 0);
-
-    document.getElementById('btn-entrar-auto').onclick = toggleAuto;
-    document.getElementById('btn-bajar-auto').onclick = toggleAuto;
-    document.getElementById('btn-mover-auto').onclick = moverAuto;
-    document.getElementById('btn-entrar-casa').onclick = toggleCasa;
-
-    document.addEventListener("keydown", (e) => {
-        if (!juegoActivo) return;
-
-        switch(e.key.toLowerCase()) {
-            case "arrowleft":
-            case "a":
-                moverPersonaje(-2, 0);
-                break;
-            case "arrowright":
-            case "d":
-                moverPersonaje(2, 0);
-                break;
-            case "arrowup":
-            case "w":
-                moverPersonaje(0, 2);
-                break;
-            case "arrowdown":
-            case "s":
-                moverPersonaje(0, -2);
-                break;
-            case "e":
-                toggleAuto();
-                break;
-            case "c":
-                toggleCasa();
-                break;
-            case "m":
-                autoSeleccionado = (autoSeleccionado + 1) % autos.length;
-                document.getElementById('auto-actual').textContent =
-                    ['Fiat Uno', 'VW Saveiro', 'Chevrolet Corsa'][autoSeleccionado];
-                break;
-            case "f":
-                document.getElementById('sonido-pistola').play();
-                break;
+        /* Paleta roja completa */
+        :root {
+            --rojo-principal: #C8102E;
+            --rojo-oscuro: #8B0000;
+            --rojo-claro: #FF4500;
+            --rojo-puro: #FF0000;
+            --rojo-fondo: #FEE7E8;
         }
-    });
-</script>
+
+        body {
+            background-color: var(--rojo-fondo);
+            color: var(--rojo-oscuro);
+            padding: 2rem;
+        }
+
+        header {
+            background-color: var(--rojo-principal);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            color: var(--rojo-principal);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--rojo-claro);
+            padding-bottom: 0.5rem;
+        }
+
+        .contenedor-formulario {
+            background-color: white;
+            border: 3px solid var(--rojo-puro);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .grupo-campo {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--rojo-oscuro);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--rojo-principal);
+            border-radius: 4px;
+            background-color: var(--rojo-fondo);
+            color: var(--rojo-oscuro);
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--rojo-claro);
+            box-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+        }
+
+        .opciones-sensibilidad {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+
+        .opcion {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button {
+            background-color: var(--rojo-principal);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--rojo-oscuro);
+        }
+
+        .resultado {
+            background-color: var(--rojo-claro);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: center;
+            display: none;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--rojo-principal);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sensibilidades Personalizadas 2026</h1>
+        <p>Define tus preferencias con máxima precisión</p>
+    </header>
+
+    <div class="contenedor-formulario">
+        <h2>Datos Personales y Tipo de Sensibilidad</h2>
+        
+        <form id="formularioSensibilidad">
+            <div class="grupo-campo">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" required placeholder="Escribe tu nombre completo">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="tipo">Categoría de Sensibilidad:</label>
+                <select id="tipo" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="sensorial">Sensorial</option>
+                    <option value="emocional">Emocional</option>
+                    <option value="cognitiva">Cognitiva</option>
+                    <option value="ambiental">Ambiental</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label>Nivel de Intensidad (1-5):</label>
+                <div class="opciones-sensibilidad">
+                    <div class="opcion">
+                        <input type="radio" id="nivel1" name="nivel" value="1" required>
+                        <label for="nivel1">1 - Muy baja</label>
+                    </div>
+                    <div class="opcion">
+                        <input type="radio" id="nivel2" name="nivel" value="2">
+                        <label for="nivel2">2 - Baja</label>
+                    </div>
+                    <div class="opcion">
+                        <input type="radio" id="nivel3" name="nivel" value="3">
+                        <label for="nivel3">3 - Media</label>
+                    </div>
+                    <div class="opcion">
+                        <input type="radio" id="nivel4" name="nivel" value="4">
+                        <label for="nivel4">4 - Alta</label>
+                    </div>
+                    <div class="opcion">
+                        <input type="radio" id="nivel5" name="nivel" value="5">
+                        <label for="nivel5">5 - Muy alta</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="detalles">Detalles Específicos (Precisión Máxima):</label>
+                <textarea id="detalles" rows="4" required placeholder="Describe tus necesidades, límites o características exactas de tu sensibilidad..."></textarea>
+            </div>
+
+            <button type="submit">Generar Perfil de Sensibilidad</button>
+        </form>
+
+        <div class="resultado" id="resultado">
+            <h3>Perfil Creado Exitosamente</h3>
+            <p id="textoResultado"></p>
+            <p style="margin-top: 1rem;">© Sensibilidades Personalizadas 2026</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Diseñado para precisión y adaptabilidad | 2026</p>
+    </footer>
+
+    <script>
+        const formulario = document.getElementById('formularioSensibilidad');
+        const resultado = document.getElementById('resultado');
+        const textoResultado = document.getElementById('textoResultado');
+
+        formulario.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const tipo = document.getElementById('tipo').value;
+            const nivel = document.querySelector('input[name="nivel"]:checked').value;
+            const detalles = document.getElementById('detalles').value;
+
+            let tipoTexto;
+            switch(tipo) {
+                case 'sensorial': tipoTexto = "Sensorial (estímulos físicos como sonido, luz o tacto)"; break;
+                case 'emocional': tipoTexto = "Emocional (respuestas a situaciones interpersonales o contenidos emocionales)"; break;
+                case 'cognitiva': tipoTexto = "Cognitiva (procesamiento de información y estímulos mentales)"; break;
+                case 'ambiental': tipoTexto = "Ambiental (factores del entorno como temperatura o espacios concurridos)"; break;
+            }
+
+            textoResultado.innerHTML = `
+                <strong>Nombre:</strong> ${nombre}<br>
+                <strong>Categoría:</strong> ${tipoTexto}<br>
+                <strong>Nivel de Intensidad:</strong> ${nivel} (${nivel == 1 ? 'Muy baja' : nivel == 2 ? 'Baja' : nivel == 3 ? 'Media' : nivel == 4 ? 'Alta' : 'Muy alta'})<br>
+                <strong>Detalles Específicos:</strong> ${detalles}
+            `;
+
+            resultado.style.display = 'block';
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+        });
+    </script>
 </body>
 </html>
