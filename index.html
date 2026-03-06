@@ -1,60 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Canvas Resize</title>
-    <style>
-        /* Estilos básicos para asegurar que los elementos ocupen el viewport */
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        #canvas, #canvas_border, #gradient, #webview_content {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Generador de Sensibilidad</title>
+<style>
+  /* Estilos generales */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #ff0000; /* Fondo rojo */
+    color: #fff; /* Texto blanco */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  input[type=range], input[type=number] {
+    width: 100%;
+    margin-top: 8px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  .resultado {
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  /* Estilos responsivos para dispositivos móviles */
+  @media (max-width: 600px) {
+    .container {
+      max-width: 90%;
+    }
+  }
+
+  /* Estilos responsivos para tabletas */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+      max-width: 70%;
+    }
+    h2 {
+      font-size: 2em;
+    }
+  }
+</style>
 </head>
 <body>
-    <!-- Elementos referenciados en la función resizeCanvas -->
-    <canvas id="canvas"></canvas>
-    <div id="canvas_border"></div>
-    <div id="gradient"></div>
-    <div id="webview_content"></div>
 
-    <script>
-        // Función resizeCanvas tal cual fue proporcionada
-        function resizeCanvas(informC) {
-            let iw = window.innerWidth;
-            let ih = window.innerHeight;
-            let canvas = document.getElementById('canvas');
-            let border = document.getElementById('canvas_border');
-            canvas.width = iw * window.devicePixelRatio;
-            canvas.height = ih * window.devicePixelRatio;
-            border.style.marginTop = '0px';
-            let gradient = document.getElementById('gradient');
-            let webViewContent = document.getElementById("webview_content");
-            [gradient, webViewContent].forEach(e => {
-                if (e) {
-                    e.style.left = '0px';
-                }
-            });
-            [canvas, gradient, webViewContent].forEach(e => {
-                if (e) {
-                    e.style.width = iw + 'px';
-                    e.style.height = ih + 'px';
-                    e.style.borderRadius = '0px';
-                }
-            });
-        }
-
-        // Llamada inicial a la función para ajustar al cargar la página
-        resizeCanvas();
-        // Llamada adicional al cambiar el tamaño de la ventana
-        window.addEventListener('resize', () => resizeCanvas());
-    </script>
-</body>
-</html>
+<div class="container">
+  <h2>Generador de Sensibilidad</h2>
+  <label for="sensibilidadRange">Sensibilidad:</label>
+  <
