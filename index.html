@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -80,12 +81,16 @@
             // Como ejemplo, usaremos valores ficticios o una fórmula simple.
 
             // Ejemplo: Sensibilidad basada en la longitud del nombre de la marca y modelo
-            const sensibilidadGeneral = Math.min(200, marca.length * 10 + modelo.length * 5);
-            const sensibilidadPuntoRojo = sensibilidadGeneral - 10;
-            const sensibilidadMiraX2 = sensibilidadGeneral - 20;
-            const sensibilidadMiraX4 = sensibilidadGeneral - 30;
-            const tamañoBoton = Math.max(10, sensibilidadGeneral / 10);
-            const precision = 100 - sensibilidadGeneral;
+            let sensibilidadGeneral = Math.min(200, marca.length * 10 + modelo.length * 5);
+            let sensibilidadPuntoRojo = Math.min(200, sensibilidadGeneral - 10);
+            let sensibilidadMiraX2 = Math.min(200, sensibilidadGeneral - 20);
+            let sensibilidadMiraX4 = Math.min(200, sensibilidadGeneral - 30);
+
+            // Tamaño del botón de disparo proporcional a la sensibilidad
+            const tamañoBotonDisparo = Math.max(10, sensibilidadGeneral / 10); // mínimo 10
+
+            // La precisión puede ser una función inversa a la sensibilidad
+            const precision = Math.max(1, 100 - sensibilidadGeneral);
 
             const resultadoDiv = document.getElementById('resultado');
             resultadoDiv.innerHTML = `
@@ -94,7 +99,7 @@
                 <p>Sensibilidad de Punto Rojo: ${sensibilidadPuntoRojo}</p>
                 <p>Sensibilidad Mira X2: ${sensibilidadMiraX2}</p>
                 <p>Sensibilidad Mira X4: ${sensibilidadMiraX4}</p>
-                <p>Tamaño del Botón: ${tamañoBoton}</p>
+                <p>Tamaño del botón de disparo: ${tamañoBotonDisparo}</p>
                 <p>Precisión: ${precision}</p>
             `;
         }
