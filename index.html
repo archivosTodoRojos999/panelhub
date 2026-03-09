@@ -2,34 +2,33 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Juego de Autos</title>
+<title>Esquiva el Tráfico</title>
 
 <style>
 body{
 margin:0;
 background:#111;
 overflow:hidden;
-font-family:monospace;
-color:white;
+font-family:Arial;
 text-align:center;
+color:white;
 }
 
 canvas{
-background:#333;
 display:block;
 margin:auto;
+background:#555;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🚗 Esquiva los autos</h2>
+<h2>🚗 Esquiva el Tráfico</h2>
 <p>⬅️➡️ mover | ⬆️ acelerar</p>
 
 <canvas id="game" width="400" height="600"></canvas>
 
-<!-- sonido de motor -->
 <audio id="engine" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3c2f8b08a3.mp3">
 </audio>
@@ -38,19 +37,29 @@ margin:auto;
 
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
+
 const engine = document.getElementById("engine")
 
+let roadOffset = 0
+
+let playerImg = new Image()
+playerImg.src = "https://i.imgur.com/7Q6YJQK.png"
+
+let enemyImg = new Image()
+enemyImg.src = "https://i.imgur.com/3WbZQKQ.png"
+
 let player = {
-x:180,
-y:500,
-w:40,
-h:80,
-speed:6
+x:170,
+y:480,
+w:60,
+h:110,
+speed:7
 }
 
 let cars = []
+
+let gameSpeed = 5
 let score = 0
-let gameSpeed = 4
 
 let keys = {}
 
@@ -60,30 +69,28 @@ document.addEventListener("keyup",e=>keys[e.key]=false)
 function spawnCar(){
 
 let lane = Math.floor(Math.random()*3)
-let x = 80 + lane*120
+
+let x = 70 + lane*110
 
 cars.push({
 x:x,
-y:-100,
-w:40,
-h:80,
-speed:gameSpeed
+y:-120,
+w:60,
+h:110
 })
 
 }
 
-setInterval(spawnCar,1000)
+setInterval(spawnCar,1200)
 
 function update(){
 
 if(keys["ArrowLeft"]) player.x -= player.speed
 if(keys["ArrowRight"]) player.x += player.speed
 
-// acelerar
 if(keys["ArrowUp"]){
 
-gameSpeed += 0.02
-
+gameSpeed += 0.03
 engine.play().catch(()=>{})
 
 }else{
@@ -92,12 +99,14 @@ engine.pause()
 
 }
 
-if(player.x<40) player.x=40
-if(player.x>320) player.x=320
+if(player.x < 40) player.x = 40
+if(player.x > 300) player.x = 300
+
+roadOffset += gameSpeed
 
 cars.forEach(car=>{
 
-car.y += car.speed
+car.y += gameSpeed
 
 if(
 player.x < car.x + car.w &&
@@ -111,70 +120,59 @@ location.reload()
 
 })
 
-cars = cars.filter(car=>car.y < canvas.height+100)
+cars = cars.filter(car=>car.y < 700)
 
 score++
 
 }
 
-function draw(){
+function drawRoad(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-/* carretera */
-
-ctx.fillStyle="#444"
+ctx.fillStyle="#2b2b2b"
 ctx.fillRect(0,0,400,600)
 
-/* lineas */
-
 ctx.strokeStyle="white"
-ctx.setLineDash([20,15])
-ctx.lineWidth=4
+ctx.lineWidth=6
+
+for(let i=-40;i<600;i+=80){
 
 ctx.beginPath()
-ctx.moveTo(133,0)
-ctx.lineTo(133,600)
+ctx.moveTo(200,i + (roadOffset % 80))
+ctx.lineTo(200,i+40 + (roadOffset % 80))
 ctx.stroke()
-
-ctx.beginPath()
-ctx.moveTo(266,0)
-ctx.lineTo(266,600)
-ctx.stroke()
-
-ctx.setLineDash([])
-
-/* auto jugador */
-
-ctx.fillStyle="lime"
-ctx.fillRect(player.x,player.y,player.w,player.h)
-
-/* autos enemigos */
-
-ctx.fillStyle="red"
-
-cars.forEach(car=>{
-ctx.fillRect(car.x,car.y,car.w,car.h)
-})
-
-/* puntaje */
-
-ctx.fillStyle="white"
-ctx.fillText("Puntos: "+score,10,20)
-
-ctx.fillText("Velocidad: "+gameSpeed.toFixed(1),10,40)
 
 }
 
-function gameLoop(){
+}
+
+function draw(){
+
+ctx.clearRect(0,0,400,600)
+
+drawRoad()
+
+ctx.drawImage(playerImg,player.x,player.y,player.w,player.h)
+
+cars.forEach(car=>{
+ctx.drawImage(enemyImg,car.x,car.y,car.w,car.h)
+})
+
+ctx.fillStyle="white"
+ctx.font="18px Arial"
+ctx.fillText("Puntos: "+score,10,25)
+ctx.fillText("Velocidad: "+gameSpeed.toFixed(1),10,50)
+
+}
+
+function loop(){
 
 update()
 draw()
-requestAnimationFrame(gameLoop)
+requestAnimationFrame(loop)
 
 }
 
-gameLoop()
+loop()
 
 </script>
 
