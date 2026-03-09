@@ -2,127 +2,126 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Cienpiés realista</title>
+<title>Generador de Sensibilidad</title>
 
 <style>
+
 body{
-margin:0;
 background:black;
-overflow:hidden;
+color:#00ff88;
+font-family:monospace;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
-canvas{display:block;}
+
+.box{
+border:2px solid #00ff88;
+padding:30px;
+width:350px;
+box-shadow:0 0 20px #00ff88;
+}
+
+button{
+background:black;
+color:#00ff88;
+border:1px solid #00ff88;
+padding:10px;
+cursor:pointer;
+margin-top:10px;
+width:100%;
+}
+
+select{
+width:100%;
+margin-top:10px;
+background:black;
+color:#00ff88;
+border:1px solid #00ff88;
+padding:8px;
+}
+
+.result{
+margin-top:20px;
+}
+
 </style>
 </head>
 
 <body>
 
-<canvas id="c"></canvas>
+<div class="box">
+
+<h2>⚡ Sensitivity Generator</h2>
+
+<label>Dispositivo</label>
+<select id="device">
+<option>Android</option>
+<option>iPhone</option>
+<option>PC</option>
+</select>
+
+<label>Estilo</label>
+<select id="style">
+<option>Precisión</option>
+<option>Equilibrado</option>
+<option>Rápido</option>
+</select>
+
+<button onclick="generar()">GENERAR</button>
+
+<div class="result" id="result"></div>
+
+</div>
 
 <script>
 
-const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let mouse = {x:canvas.width/2,y:canvas.height/2};
-
-document.addEventListener("mousemove",e=>{
-mouse.x = e.clientX;
-mouse.y = e.clientY;
-});
-
-const segments = 120;
-let body = [];
-
-for(let i=0;i<segments;i++){
-body.push({x:canvas.width/2,y:canvas.height/2});
+function random(min,max){
+return Math.floor(Math.random()*(max-min)+min)
 }
 
-let hue = 0;
+function generar(){
 
-function update(){
+let device = document.getElementById("device").value
+let style = document.getElementById("style").value
 
-body[0].x += (mouse.x-body[0].x)*0.15;
-body[0].y += (mouse.y-body[0].y)*0.15;
+let general, redDot, scope, sniper
 
-for(let i=1;i<body.length;i++){
-
-body[i].x += (body[i-1].x-body[i].x)*0.35;
-body[i].y += (body[i-1].y-body[i].y)*0.35;
-
+if(style=="Precisión"){
+general=random(60,80)
+redDot=random(50,70)
+scope=random(40,60)
+sniper=random(30,50)
 }
 
+if(style=="Equilibrado"){
+general=random(80,100)
+redDot=random(70,90)
+scope=random(60,80)
+sniper=random(50,70)
 }
 
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-hue+=1;
-let color = `hsl(${hue},100%,50%)`;
-
-ctx.strokeStyle=color;
-ctx.shadowColor=color;
-ctx.shadowBlur=8;
-ctx.lineWidth=2;
-
-for(let i=1;i<body.length;i++){
-
-let p = body[i];
-let prev = body[i-1];
-
-let angle = Math.atan2(prev.y-p.y,prev.x-p.x);
-
-let rib = 12;
-
-let lx = p.x + Math.cos(angle+Math.PI/2)*rib;
-let ly = p.y + Math.sin(angle+Math.PI/2)*rib;
-
-let rx = p.x + Math.cos(angle-Math.PI/2)*rib;
-let ry = p.y + Math.sin(angle-Math.PI/2)*rib;
-
-ctx.beginPath();
-ctx.moveTo(lx,ly);
-ctx.lineTo(rx,ry);
-ctx.stroke();
-
-if(i%3==0){
-
-let leg = 25;
-
-let llx = lx + Math.cos(angle+Math.PI/2)*leg;
-let lly = ly + Math.sin(angle+Math.PI/2)*leg;
-
-let rlx = rx + Math.cos(angle-Math.PI/2)*leg;
-let rly = ry + Math.sin(angle-Math.PI/2)*leg;
-
-ctx.beginPath();
-ctx.moveTo(lx,ly);
-ctx.lineTo(llx,lly);
-ctx.stroke();
-
-ctx.beginPath();
-ctx.moveTo(rx,ry);
-ctx.lineTo(rlx,rly);
-ctx.stroke();
-
+if(style=="Rápido"){
+general=random(100,120)
+redDot=random(90,110)
+scope=random(80,100)
+sniper=random(70,90)
 }
 
-}
+document.getElementById("result").innerHTML=
+
+`
+Dispositivo: ${device}<br><br>
+
+General: ${general}<br>
+Red Dot: ${redDot}<br>
+2x Scope: ${scope}<br>
+Sniper: ${sniper}
+
+`
 
 }
-
-function loop(){
-
-update();
-draw();
-requestAnimationFrame(loop);
-
-}
-
-loop();
 
 </script>
 
