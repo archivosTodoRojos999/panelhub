@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Generador de Sensibilidad</title>
+<title>Generador de Sensibilidad Pro</title>
 
 <style>
 
@@ -16,34 +16,30 @@ align-items:center;
 height:100vh;
 }
 
-.box{
+.panel{
+width:450px;
 border:2px solid #00ff88;
-padding:30px;
-width:350px;
-box-shadow:0 0 20px #00ff88;
+padding:25px;
+box-shadow:0 0 25px #00ff88;
 }
 
-button{
-background:black;
-color:#00ff88;
-border:1px solid #00ff88;
+h2{
+text-align:center;
+}
+
+select,button{
+width:100%;
+margin-top:10px;
 padding:10px;
-cursor:pointer;
-margin-top:10px;
-width:100%;
-}
-
-select{
-width:100%;
-margin-top:10px;
 background:black;
 color:#00ff88;
 border:1px solid #00ff88;
-padding:8px;
+font-family:monospace;
 }
 
 .result{
 margin-top:20px;
+line-height:1.7;
 }
 
 </style>
@@ -51,73 +47,105 @@ margin-top:20px;
 
 <body>
 
-<div class="box">
+<div class="panel">
 
-<h2>⚡ Sensitivity Generator</h2>
+<h2>⚡ GENERADOR DE SENSIBILIDAD</h2>
 
 <label>Dispositivo</label>
 <select id="device">
-<option>Android</option>
+
+<option>Samsung</option>
+<option>Xiaomi</option>
+<option>Redmi</option>
+<option>Poco</option>
+<option>Huawei</option>
+<option>Honor</option>
+<option>Motorola</option>
+<option>Realme</option>
+<option>Oppo</option>
+<option>Vivo</option>
+<option>OnePlus</option>
+<option>Asus</option>
+<option>ROG Phone</option>
+<option>Black Shark</option>
+<option>Lenovo</option>
+<option>Nokia</option>
+<option>Sony</option>
+<option>LG</option>
+<option>ZTE</option>
+<option>Google Pixel</option>
 <option>iPhone</option>
-<option>PC</option>
+<option>iPad</option>
+<option>PC Gamer</option>
+<option>Laptop</option>
+<option>Tablet Android</option>
+
 </select>
 
-<label>Estilo</label>
-<select id="style">
-<option>Precisión</option>
-<option>Equilibrado</option>
-<option>Rápido</option>
-</select>
+<button onclick="generar()">GENERAR SENSIBILIDAD</button>
 
-<button onclick="generar()">GENERAR</button>
-
-<div class="result" id="result"></div>
+<div class="result" id="resultado"></div>
 
 </div>
 
 <script>
 
-function random(min,max){
-return Math.floor(Math.random()*(max-min)+min)
-}
-
 function generar(){
 
-let device = document.getElementById("device").value
-let style = document.getElementById("style").value
+let device=document.getElementById("device").value
 
-let general, redDot, scope, sniper
+let base=150
 
-if(style=="Precisión"){
-general=random(60,80)
-redDot=random(50,70)
-scope=random(40,60)
-sniper=random(30,50)
-}
+if(device=="Samsung") base=160
+if(device=="Xiaomi") base=158
+if(device=="Redmi") base=155
+if(device=="Poco") base=165
+if(device=="Huawei") base=150
+if(device=="Honor") base=152
+if(device=="Motorola") base=148
+if(device=="Realme") base=160
+if(device=="Oppo") base=158
+if(device=="Vivo") base=159
+if(device=="OnePlus") base=170
+if(device=="Asus") base=172
+if(device=="ROG Phone") base=180
+if(device=="Black Shark") base=178
+if(device=="Lenovo") base=150
+if(device=="Nokia") base=145
+if(device=="Sony") base=150
+if(device=="LG") base=147
+if(device=="ZTE") base=150
+if(device=="Google Pixel") base=165
+if(device=="iPhone") base=175
+if(device=="iPad") base=170
+if(device=="PC Gamer") base=120
+if(device=="Laptop") base=125
+if(device=="Tablet Android") base=165
 
-if(style=="Equilibrado"){
-general=random(80,100)
-redDot=random(70,90)
-scope=random(60,80)
-sniper=random(50,70)
-}
+let general=Math.min(base,200)
+let redDot=Math.min(base-5,200)
+let x2=Math.min(base-15,200)
+let x4=Math.min(base-25,200)
+let sniper=Math.min(base-35,200)
+let cam360=Math.min(base+10,200)
 
-if(style=="Rápido"){
-general=random(100,120)
-redDot=random(90,110)
-scope=random(80,100)
-sniper=random(70,90)
-}
-
-document.getElementById("result").innerHTML=
+document.getElementById("resultado").innerHTML=
 
 `
-Dispositivo: ${device}<br><br>
+DISPOSITIVO: ${device}
+<br><br>
 
-General: ${general}<br>
-Red Dot: ${redDot}<br>
-2x Scope: ${scope}<br>
-Sniper: ${sniper}
+GENERAL: ${general}
+<br>
+MIRA DE PUNTO ROJO: ${redDot}
+<br>
+MIRA X2: ${x2}
+<br>
+MIRA X4: ${x4}
+<br>
+MIRA FRANCOTIRADOR: ${sniper}
+<br>
+BOTON DE CAMARA 360º: ${cam360}
 
 `
 
