@@ -28,12 +28,9 @@ padding:10px;
 font-size:34px;
 }
 
-/* VIDEO */
-
 #video{
 width:900px;
 max-width:90%;
-margin:auto;
 position:relative;
 }
 
@@ -42,9 +39,10 @@ width:100%;
 height:450px;
 object-fit:cover;
 border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
 transition:opacity 1s;
 }
+
+/* SUBTITULO */
 
 #subtitulo{
 position:absolute;
@@ -57,7 +55,7 @@ padding:12px;
 border-radius:8px;
 }
 
-/* LOGO */
+/* LOGO FIJO */
 
 #logoEscuela{
 position:absolute;
@@ -69,6 +67,7 @@ gap:10px;
 background:rgba(0,0,0,0.6);
 padding:6px 12px;
 border-radius:12px;
+z-index:10;
 }
 
 #logoEscuela img{
@@ -81,7 +80,6 @@ border-radius:50%;
 }
 
 #logoEscuela span{
-font-size:16px;
 font-weight:bold;
 }
 
@@ -99,10 +97,6 @@ color:white;
 font-weight:bold;
 }
 
-button:hover{
-transform:scale(1.05);
-}
-
 </style>
 </head>
 
@@ -112,20 +106,22 @@ transform:scale(1.05);
 
 <div id="video">
 
+<!-- LOGO (NO CAMBIA) -->
 <div id="logoEscuela">
 <img src="logo-marcelino.png">
 <span>Marcelino Blanco</span>
 </div>
 
+<!-- IMAGEN DEL VIDEO -->
 <img id="imagen" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b">
 
 <div id="subtitulo">
-Presiona iniciar para comenzar el video
+Presiona iniciar para comenzar
 </div>
 
 </div>
 
-<button onclick="iniciar()">▶ Iniciar video</button>
+<button onclick="iniciar()">▶ Iniciar</button>
 
 <audio id="musica" loop>
 <source src="musica.mp3" type="audio/mpeg">
@@ -160,102 +156,59 @@ let textos=[
 
 let i=0;
 
-/* INICIAR VIDEO */
+/* INICIAR */
 
 function iniciar(){
 
 let musica=document.getElementById("musica");
-
-musica.volume=0;
+musica.volume=0.25;
 musica.play();
 
-let subirVolumen=setInterval(()=>{
-if(musica.volume<0.25){
-musica.volume+=0.02;
-}else{
-clearInterval(subirVolumen);
-}
-},200);
-
-i=0;
-
-cambiarImagen();
-leerTexto();
+reproducirEscena();
 
 }
 
-/* CAMBIO DE IMAGEN CADA 3 SEGUNDOS */
+/* ESCENA */
 
-function cambiarImagen(){
+function reproducirEscena(){
+
+if(i>=textos.length) return;
 
 let img=document.getElementById("imagen");
+let subt=document.getElementById("subtitulo");
 
 img.style.opacity=0;
 
 setTimeout(()=>{
 
-img.src=imagenes[i];
-document.getElementById("subtitulo").innerText=textos[i];
+img.src=imagenes[i];   // SOLO cambia esta imagen
+subt.innerText=textos[i];
 
 img.style.opacity=1;
 
-},400);
+leerTexto(textos[i]);
 
-i++;
-
-if(i<imagenes.length){
-setTimeout(cambiarImagen,3000);
-}
+},500);
 
 }
 
-/* VOZ SIN DESINCRONIZARSE */
+/* VOZ */
 
-let indiceVoz=0;
-
-function leerTexto(){
-
-if(indiceVoz>=textos.length) return;
+function leerTexto(texto){
 
 speechSynthesis.cancel();
 
-let voz=new SpeechSynthesisUtterance(textos[indiceVoz]);
+let voz=new SpeechSynthesisUtterance(texto);
 
 voz.lang="es-ES";
 voz.rate=0.95;
 voz.pitch=0.5;
 
-let voces=speechSynthesis.getVoices();
-
-for(let v of voces){
-
-let nombre=v.name.toLowerCase();
-
-if(
-v.lang.includes("es") &&
-(
-nombre.includes("pablo") ||
-nombre.includes("jorge") ||
-nombre.includes("diego") ||
-nombre.includes("hector") ||
-nombre.includes("carlos")
-)
-){
-voz.voice=v;
-break;
-}
-
-}
-
-if(!voz.voice){
-voz.voice=voces.find(v=>v.lang.includes("es"));
-}
-
 voz.onend=function(){
 
-indiceVoz++;
+i++;
 
-setTimeout(leerTexto,300);
+setTimeout(reproducirEscena,500);
 
 };
 
