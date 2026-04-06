@@ -1,150 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-
-<!-- 🔒 BLOQUEA ZOOM -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<title>Piano Pro</title>
-
-<style>
-body {
-    margin: 0;
-    overflow: hidden;
-    text-align: center;
-    font-family: Arial;
-    background: #111;
-    color: white;
-}
-
-/* CONTENEDOR CENTRADO FIJO */
-.contenedor {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* PIANO */
-.piano {
-    position: relative;
-    display: flex;
-}
-
-/* BLANCAS */
-.tecla {
-    width: 55px;
-    height: 260px;
-    background: white;
-    border: 1px solid black;
-    cursor: pointer;
-}
-
-.tecla:active {
-    background: #ccc;
-}
-
-/* NEGRAS */
-.negra {
-    width: 35px;
-    height: 160px;
-    background: black;
-    position: absolute;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.negra:active {
-    background: #444;
-}
-
-/* POSICIONES PERFECTAS */
-#cs1 { left: 40px; }
-#ds1 { left: 95px; }
-#fs1 { left: 205px; }
-#gs1 { left: 260px; }
-#as1 { left: 315px; }
-
-#cs2 { left: 425px; }
-#ds2 { left: 480px; }
-#fs2 { left: 590px; }
-#gs2 { left: 645px; }
-#as2 { left: 700px; }
-
-h1 {
-    margin-bottom: 10px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>IA con Voz y Texto</title>
 </head>
-
 <body>
+    <h1>Escribe un mensaje</h1>
+    <input type="text" id="userInput" placeholder="Escribe aquí tu mensaje">
+    <button onclick="hablar()">Enviar</button>
+    <p id="respuesta"></p>
 
-<div class="contenedor">
-    <h1>🎹 Piano PRO</h1>
-    <p>Hacé clic en cualquier tecla</p>
+    <script>
+        function hablar() {
+            const texto = document.getElementById('userInput').value;
+            const respuesta = "Tu mensaje fue: " + texto;
+            document.getElementById('respuesta').innerText = respuesta;
 
-    <div class="piano">
-        <!-- BLANCAS -->
-        <div class="tecla" onclick="tocar(261.6)"></div>
-        <div class="tecla" onclick="tocar(293.7)"></div>
-        <div class="tecla" onclick="tocar(329.6)"></div>
-        <div class="tecla" onclick="tocar(349.2)"></div>
-        <div class="tecla" onclick="tocar(392.0)"></div>
-        <div class="tecla" onclick="tocar(440.0)"></div>
-        <div class="tecla" onclick="tocar(493.9)"></div>
-
-        <div class="tecla" onclick="tocar(523.3)"></div>
-        <div class="tecla" onclick="tocar(587.3)"></div>
-        <div class="tecla" onclick="tocar(659.3)"></div>
-        <div class="tecla" onclick="tocar(698.5)"></div>
-        <div class="tecla" onclick="tocar(784.0)"></div>
-        <div class="tecla" onclick="tocar(880.0)"></div>
-        <div class="tecla" onclick="tocar(987.8)"></div>
-
-        <!-- NEGRAS -->
-        <div class="negra" id="cs1" onclick="tocar(277.2)"></div>
-        <div class="negra" id="ds1" onclick="tocar(311.1)"></div>
-        <div class="negra" id="fs1" onclick="tocar(370.0)"></div>
-        <div class="negra" id="gs1" onclick="tocar(415.3)"></div>
-        <div class="negra" id="as1" onclick="tocar(466.2)"></div>
-
-        <div class="negra" id="cs2" onclick="tocar(554.4)"></div>
-        <div class="negra" id="ds2" onclick="tocar(622.2)"></div>
-        <div class="negra" id="fs2" onclick="tocar(740.0)"></div>
-        <div class="negra" id="gs2" onclick="tocar(830.6)"></div>
-        <div class="negra" id="as2" onclick="tocar(932.3)"></div>
-    </div>
-</div>
-
-<script>
-// 🎧 AUDIO CONTEXTO GLOBAL (SOLUCIONA EL PROBLEMA)
-const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-// FUNCIÓN SONIDO
-function tocar(freq) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.frequency.value = freq;
-    osc.type = "sine";
-
-    osc.start();
-
-    gain.gain.setValueAtTime(1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
-
-    osc.stop(ctx.currentTime + 1);
-}
-
-// ACTIVAR AUDIO (IMPORTANTE)
-document.body.addEventListener("click", () => {
-    ctx.resume();
-}, { once: true });
-</script>
-
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(respuesta);
+            synth.speak(utterance);
+        }
+    </script>
 </body>
 </html>
