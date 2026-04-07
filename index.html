@@ -1,118 +1,120 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Hacker Interface</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador Sensi Pro Max</title>
   <style>
     body {
-      background-color: black;
+      background: #000;
       color: #00ff00;
-      font-family: "Courier New", monospace;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       margin: 0;
-      overflow: hidden;
-    }#terminal {
-  padding: 20px;
-  font-size: 16px;
-  white-space: pre-line;
-}
-
-.cursor {
-  display: inline-block;
-  width: 10px;
-  background: #00ff00;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50%, 100% { opacity: 1; }
-  25%, 75% { opacity: 0; }
-}
-
-.glitch {
-  color: #00ff00;
-  text-shadow: 2px 2px red;
-  animation: glitch 1s infinite;
-}
-
-@keyframes glitch {
-  0% { text-shadow: 2px 2px red; }
-  50% { text-shadow: -2px -2px blue; }
-  100% { text-shadow: 2px 2px red; }
-}
-
+    }
+    .box {
+      border: 1px solid #00ff00;
+      padding: 20px;
+      width: 350px;
+      box-shadow: 0 0 10px #00ff00;
+    }
+    input, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      background: black;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+    }
+    button:hover {
+      background: #00ff00;
+      color: black;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .headshot {
+      margin-top: 15px;
+      border: 1px solid #00ff00;
+      padding: 10px;
+      text-align: center;
+    }
+    .error {
+      color: red;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
-  <div id="terminal"></div>  <script>
-    const text = [
-      "Iniciando sistema...",
-      "Conectando a servidor seguro...",
-      "Acceso denegado...",
-      "Bypass de seguridad...",
-      "Acceso concedido ✔",
-      "Descargando datos...",
-      "[██████████] 100%",
-      "",
-      "Bienvenido, usuario.",
-      "Sistema comprometido..."
-    ];
+  <div class="box">
+    <h2>🎯 GENERADOR SENSI PRO MAX</h2>
 
-    let i = 0;
-    let j = 0;
-    const speed = 40;
-    const terminal = document.getElementById("terminal");
+    <input id="device" placeholder="Ej: Samsung A51, iPhone 11" />
+    <button onclick="generate()">GENERAR SENSI</button>
 
-    function type() {
-      if (i < text.length) {
-        if (j < text[i].length) {
-          terminal.innerHTML += text[i].charAt(j);
-          j++;
-          setTimeout(type, speed);
-        } else {
-          terminal.innerHTML += "\n";
-          i++;
-          j = 0;
-          setTimeout(type, 500);
-        }
-      } else {
-        terminal.innerHTML += "\n>_";
+    <div id="error" class="error"></div>
+    <div id="result" class="result"></div>
+    <div id="headshot" class="headshot"></div>
+  </div>
+
+  <script>
+    function generate() {
+      const device = document.getElementById("device").value.trim();
+      const errorEl = document.getElementById("error");
+      const resultEl = document.getElementById("result");
+      const headshotEl = document.getElementById("headshot");
+
+      if (!device) {
+        errorEl.innerText = "Escribe tu dispositivo";
+        resultEl.innerHTML = "";
+        headshotEl.innerHTML = "";
+        return;
       }
-    }
 
-    type();
+      errorEl.innerText = "";
 
-    // Fondo tipo "Matrix"
-    const canvas = document.createElement("canvas");
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const letters = "01";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-
-    const drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
-          drops[i] = 0;
-
-        drops[i]++;
+      let hash = 0;
+      for (let i = 0; i < device.length; i++) {
+        hash = device.charCodeAt(i) + ((hash << 5) - hash);
       }
-    }
 
-    setInterval(draw, 33);
-  </script></body>
+      const base = Math.abs(hash);
+
+      function calc(min, max, factor) {
+        let value = min + (base % factor);
+        value = Math.max(min, Math.min(value, max));
+        return value;
+      }
+
+      const sens = {
+        general: calc(120, 200, 80),
+        redDot: calc(90, 180, 70),
+        x2: calc(80, 170, 60),
+        x4: calc(70, 160, 50),
+        sniper: calc(60, 150, 40),
+        freeLook: calc(100, 200, 100)
+      };
+
+      resultEl.innerHTML = `
+        GENERAL: ${sens.general}<br>
+        PUNTO ROJO: ${sens.redDot}<br>
+        MIRA X2: ${sens.x2}<br>
+        MIRA X4: ${sens.x4}<br>
+        FRANCOTIRADOR: ${sens.sniper}<br>
+        CAMARA 360: ${sens.freeLook}
+      `;
+
+      let precision = Math.floor((sens.general + sens.redDot + sens.freeLook) / 5);
+      if (precision < 99) precision = 99;
+      if (precision > 100) precision = 100;
+
+      headshotEl.innerHTML = `🎯 HEADSHOT PRECISION: ${precision}%`;
+    }
+  </script>
+</body>
 </html>
