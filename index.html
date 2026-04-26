@@ -1,11 +1,10 @@
+```html
 <!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SENCI DE SALITA 2.0</title><style>
+<title>SENCI DE SALITA 2.0 </title><style>
 body{margin:0;background:#000;font-family:Arial;color:white;position:relative;overflow:hidden;}
-
-/* CAPA DE FONDO ANIMADO */
 body::before{
 content:"";
 position:fixed;
@@ -18,7 +17,6 @@ background:radial-gradient(circle at 20% 30%, rgba(255,0,0,0.2), transparent 40%
 animation:fondoMove 10s infinite alternate ease-in-out;
 z-index:-1;
 }
-
 @keyframes fondoMove{
 0%{background-position:0% 50%,100% 50%,50% 50%,0 0;}
 50%{background-position:50% 0%,50% 100%,50% 50%,0 0;}
@@ -26,134 +24,122 @@ z-index:-1;
 }
 .container{max-width:420px;margin:auto;padding:15px;}
 h1{color:#ff2a2a;font-size:22px;}
-
 .tabs{display:flex;background:#111;border-radius:25px;overflow:hidden;margin:15px 0;}
 .tab{flex:1;padding:12px;text-align:center;color:#777;cursor:pointer;}
 .tab.active{background:#ff2a2a;color:#fff;border-radius:25px;}
-
 .volver{color:#ff2a2a;margin:10px 0;}
-
 input{width:100%;padding:8px;margin:5px 0;border-radius:10px;border:none;background:#111;color:white;text-align:center;}
-
 .box{background:#120000;border:1px solid #ff2a2a;border-radius:20px;padding:15px;}
 .titulo{font-weight:bold;margin-bottom:10px;display:flex;justify-content:space-between;}
 .pill{background:#2a0000;padding:5px 10px;border-radius:20px;color:#ff2a2a;font-size:12px;}
-
 .row{margin:15px 0;}
 .label{display:flex;justify-content:space-between;margin-bottom:5px;}
-
 input[type=range]{width:100%;}
-
 .bottom{display:flex;justify-content:space-between;margin-top:20px;}
 .bottomBox{width:48%;background:#120000;border:1px solid #ff2a2a;border-radius:15px;padding:15px;text-align:center;}
 .valor{color:#ff2a2a;font-size:26px;}
 .footer{text-align:center;margin-top:10px;color:#777;font-size:12px;}
-
-/* ANUNCIO */
 .anuncio-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;z-index:9999;}
 .anuncio{background:#120000;border:2px solid #ff2a2a;border-radius:20px;padding:20px;width:90%;max-width:300px;text-align:center;box-shadow:0 0 20px red;position:relative;}
 .cerrar{position:absolute;top:8px;right:10px;cursor:pointer;font-size:18px;color:white;}
 .titulo-anuncio{color:#ff2a2a;font-size:18px;margin-bottom:10px;}
-
-/* ANIMACIÓN GENERAR */
-.flash{
-animation:flashAnim 0.5s ease;
-}
-
+.flash{animation:flashAnim 0.5s ease;}
 @keyframes flashAnim{
 0%{box-shadow:0 0 10px #ff2a2a;transform:scale(1);} 
 50%{box-shadow:0 0 30px #ff0000;transform:scale(1.02);} 
 100%{box-shadow:0 0 10px #ff2a2a;transform:scale(1);} 
 }
-
-
-
-/* RESPONSIVE PC Y CELULAR */
 @media (max-width: 600px){
-.container{
-  padding:10px;
+.container{padding:10px;}
+.tabs{flex-direction:column;}
+.tab{border-radius:0;}
+.bottom{flex-direction:column;gap:10px;}
+.bottomBox{width:100%;}
 }
-.tabs{
-  flex-direction:column;
-}
-.tab{
-  border-radius:0;
-}
-.bottom{
-  flex-direction:column;
-  gap:10px;
-}
-.bottomBox{
-  width:100%;
-}
-}
-
 @media (min-width: 800px){
-.container{
-  max-width:700px;
+.container{max-width:700px;}
+.box{padding:25px;}
 }
-.box{
-  padding:25px;
-}
-}
+</style></head>
 
-</style></head><body><div class="container">
-<h1>? SENCI DE SALITA 2.0</h1><div class="tabs">
+<body>
+<div class="container">
+<h1>SENCI DE SALITA 2.0 </h1>
+
+<div class="tabs">
 <div class="tab active" onclick="setTab(this,'normal')">Sensi Normal</div>
-<div class="tab" onclick="setTab(this,'premium')">?? Sensi Alta</div>
-<div class="tab" onclick="setTab(this,'inspirada')">? Sensi Media</div>
-</div><input id="marca" placeholder="Marca del dispositivo">
-<input id="modelo" placeholder="Modelo del dispositivo"><div class="volver">? Voltar</div><div class="box"><button onclick="generarSenci()" style="width:100%;padding:10px;margin-bottom:10px;border:none;border-radius:10px;background:#ff2a2a;color:white;font-weight:bold;">?? GENERAR SENCI</button>
+<div class="tab" onclick="setTab(this,'premium')">Sensi Alta</div>
+<div class="tab" onclick="setTab(this,'inspirada')">Sensi Media</div>
+</div>
+
+<input id="marca" placeholder="Marca del dispositivo">
+<input id="modelo" placeholder="Modelo del dispositivo">
+
+<div class="box">
+<button onclick="generarSenci()" style="width:100%;padding:10px;margin-bottom:10px;border:none;border-radius:10px;background:#ff2a2a;color:white;font-weight:bold;">
+GENERAR SENCI
+</button>
 
 <div class="titulo">
-<span>SENSIBILIDADE</span>
+<span>SENSIBILIDAD</span>
 <span class="pill" id="tipo">NORMAL</span>
-</div><div class="row">
-<div class="label">Geral <span id="general">150</span></div>
+</div>
+
+<div class="row">
+<div class="label">General <span id="general">150</span></div>
 <input type="range" min="1" max="200" value="150" oninput="update('general',this.value)">
-</div><div class="row">
-<div class="label">Ponto vermelho <span id="red">130</span></div>
+</div>
+
+<div class="row">
+<div class="label">Punto rojo <span id="red">130</span></div>
 <input type="range" min="1" max="200" value="130" oninput="update('red',this.value)">
-</div><div class="row">
+</div>
+
+<div class="row">
 <div class="label">Mira 2x <span id="x2">120</span></div>
 <input type="range" min="1" max="200" value="120" oninput="update('x2',this.value)">
-</div><div class="row">
+</div>
+
+<div class="row">
 <div class="label">Mira 4x <span id="x4">110</span></div>
 <input type="range" min="1" max="200" value="110" oninput="update('x4',this.value)">
-</div><div class="row">
-<div class="label">Mira AWM <span id="awm">125</span></div>
+</div>
+
+<div class="row">
+<div class="label">AWM <span id="awm">125</span></div>
 <input type="range" min="1" max="200" value="125" oninput="update('awm',this.value)">
-</div><div class="row">
+</div>
+
+<div class="row">
 <div class="label">Botón cámara <span id="boton">50</span></div>
 <input type="range" min="1" max="100" value="50" oninput="update('boton',this.value)">
-</div></div><div class="bottom">
+</div>
+</div>
+
+<div class="bottom">
 <div class="bottomBox">
 <div class="valor" id="btnSize">50</div>
-<div>TAM. BOTÃO</div>
-</div><div class="bottomBox">
-<div class="valor" id="dpi">400</div>
-<div>RESOLUÇÃO</div>
+<div>TAM. BOTÓN</div>
 </div>
-</div><div class="footer">SENSI #1 • Auto</div>
-</div><!-- ANUNCIO --><div class="anuncio-overlay" id="anuncio">
-<div class="anuncio">
-<div class="cerrar" onclick="cerrarAnuncio()">?</div>
-<div class="titulo-anuncio">?? NUEVA ACTUALIZACIÓN</div>
-<p>Se actualizó la SENCI DE SALITA ??</p>
-</div>
-</div><script>
-let tipoActual="normal";
 
-function cerrarAnuncio(){
-document.getElementById('anuncio').style.display='none';
-}
+<div class="bottomBox">
+<div class="valor" id="dpi">400</div>
+<div>DPI</div>
+</div>
+</div>
+
+<div class="footer">SENSI PRO CALIBRADA</div>
+</div>
+
+<script>
+// 🔥 SCRIPT MEJORADO (PRECISO Y ESTABLE)
+let tipoActual="normal";
 
 function setTab(btn,tipo){
 document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
 btn.classList.add('active');
 tipoActual=tipo;
 document.getElementById('tipo').innerText=tipo.toUpperCase();
-// ? ya NO genera automáticamente
 }
 
 function update(id,val){
@@ -162,11 +148,9 @@ if(id==='boton') document.getElementById('btnSize').innerText=val;
 }
 
 function generarSenci(){
-// animación visual
 let box=document.querySelector('.box');
 box.classList.add('flash');
 setTimeout(()=>box.classList.remove('flash'),500);
-
 calcular();
 }
 
@@ -179,33 +163,26 @@ let base=0;
 for(let i=0;i<texto.length;i++){
 base+=texto.charCodeAt(i)*(i+1);
 }
-// base más precisa tipo "hacker"
+
 base=(base%60)+10;
 
 let mult=1;
-
-// DETECCIÓN REAL DE GAMA
 let textoLower = texto.toLowerCase();
-let gama = "media";
+let gama="media";
 
-if(textoLower.includes("pro") || textoLower.includes("ultra") || textoLower.includes("iphone") || textoLower.includes("s23") || textoLower.includes("s24")){
-  gama = "alta";
-}
-else if(textoLower.includes("lite") || textoLower.includes("a") || textoLower.includes("g") || textoLower.includes("core")){
-  gama = "baja";
-}
+if(textoLower.includes("pro")||textoLower.includes("ultra")||textoLower.includes("iphone")) gama="alta";
+else if(textoLower.includes("lite")||textoLower.includes("a")) gama="baja";
 
-// ajuste por gama
-if(gama === "alta") mult += 0.15;
-if(gama === "baja") mult -= 0.1;
-if(tipoActual==='premium') mult=1.35; // más potente
-if(tipoActual==='inspirada') mult=0.85; // más control
+if(gama==="alta") mult+=0.10;
+if(gama==="baja") mult-=0.05;
 
-// ajuste tipo Marechal (micro precisión)
-let micro = (texto.length * 7) % 15;
+if(tipoActual==="premium") mult=1.20;
+if(tipoActual==="inspirada") mult=0.90;
+
+let micro=(texto.length*5)%10;
 
 let sens={
-general:Math.floor((150+base+micro)*mult),
+general:Math.floor((140+base+micro)*mult),
 red:Math.floor((120+base+micro)*mult),
 x2:Math.floor((90+base)*mult),
 x4:Math.floor((170+base+micro)*mult),
@@ -213,14 +190,11 @@ awm:Math.floor((110+base+micro)*mult),
 boton:Math.floor((60+base)*mult)
 };
 
-// suavizado tipo pro player
-function suavizar(v){return Math.floor((v*0.92)+(Math.random()*4));}
+function suavizar(v){return Math.floor((v*0.96)+1);}
+
 for(let k in sens){sens[k]=suavizar(sens[k]);}
 
-// LIMITES 1 - 200
-function limitar(v,max){
-return Math.max(1,Math.min(v,max));
-}
+function limitar(v,max){return Math.max(1,Math.min(v,max));}
 
 sens.general=limitar(sens.general,200);
 sens.red=limitar(sens.red,200);
@@ -234,12 +208,13 @@ if(document.getElementById(k)) document.getElementById(k).innerText=sens[k];
 }
 
 document.getElementById('btnSize').innerText=sens.boton;
-document.getElementById('dpi').innerText=300+base*5;
+
+let dpiFinal=350+(base*3);
+dpiFinal=Math.max(350,Math.min(dpiFinal,600));
+document.getElementById('dpi').innerText=dpiFinal;
 }
-</script><!-- AUDIO GAMER --><audio id="bgMusic" autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c0a9b8b9a.mp3?filename=gaming-music-112191.mp3" type="audio/mpeg">
-</audio><script>
-// música automática sin botónelse{m.pause();}
-}
-</script></body>
+</script>
+
+</body>
 </html>
+```
